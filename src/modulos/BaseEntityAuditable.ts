@@ -12,7 +12,8 @@ export abstract class BaseEntityAuditable {
   @CreateDateColumn({
     name: 'fecha_creacion',
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
+    precision: 6,
+    default: () => 'CURRENT_TIMESTAMP(6)',
   })
   fechaCreacion!: Date;
 
@@ -27,11 +28,14 @@ export abstract class BaseEntityAuditable {
   @UpdateDateColumn({
     name: 'fecha_modificacion',
     type: 'timestamp',
+    precision: 6,
+    default: () => 'CURRENT_TIMESTAMP(6)',
+    onUpdate: 'CURRENT_TIMESTAMP(6)',
     nullable: true,
-    default: () => 'CURRENT_TIMESTAMP',
   })
   fechaModificacion!: Date;
 
   @Column({ name: 'estado', type: 'tinyint', default: 1 })
   estado!: number;
 }
+ 
