@@ -41,4 +41,7 @@ export class Usuario extends BaseEntityAuditable {
 
   @OneToMany(() => Aporte, (aporte) => aporte.usuario)
   aportes: Aporte[];
+
+  @OneToOne(() => Historial, (historial) => historial.usuario)
+  historial: Historial;
 }
