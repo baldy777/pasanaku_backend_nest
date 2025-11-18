@@ -4,9 +4,12 @@ import {
   Column,
   OneToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { BaseEntityAuditable } from '../../BaseEntityAuditable';
 import { Persona } from './persona.entity';
+import { Grupo } from 'src/modulos/grupos/grupo-entities/grupo.entity';
 
 @Entity({ name: 'usuarios' })
 export class Usuario extends BaseEntityAuditable {
@@ -21,8 +24,16 @@ export class Usuario extends BaseEntityAuditable {
 
   @Column({ type: 'varchar', length: 200 })
   password!: string;
-  
+
   @OneToOne(() => Persona, { eager: true })
   @JoinColumn({ name: 'persona_id' })
   persona!: Persona;
+
+  @ManyToMany(() => Grupo, (grupo) => grupo.usuarios)
+  @JoinTable({
+    name: 'usuario_grupo',
+    joinColumn: { name: 'usuario_id', referencedColumnName: 'id' },
+    inverseJoinColumn: { name: 'grupo_id', referencedColumnName: 'id' },
+  })
+  grupos: Grupo[];
 }
