@@ -6,9 +6,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Usuario } from '../../usuarios/usuario-entities/usuario.entity';
+import { BaseEntityAuditable } from 'src/modulos/BaseEntityAuditable';
 
 @Entity('historial')
-export class Historial {
+export class Historial extends BaseEntityAuditable {
   @PrimaryGeneratedColumn()
   id: number;
 

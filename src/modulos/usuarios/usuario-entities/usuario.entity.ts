@@ -12,6 +12,7 @@ import { BaseEntityAuditable } from '../../BaseEntityAuditable';
 import { Persona } from './persona.entity';
 import { Grupo } from 'src/modulos/grupos/grupo-entities/grupo.entity';
 import { Aporte } from 'src/modulos/aportes/entities/aporte.entity';
+import { Historial } from 'src/modulos/historial/entities/historial.entity';
 
 @Entity({ name: 'usuarios' })
 export class Usuario extends BaseEntityAuditable {
