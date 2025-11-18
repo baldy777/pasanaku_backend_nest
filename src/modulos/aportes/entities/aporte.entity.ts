@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Usuario } from '../../usuarios/usuario-entities/usuario.entity';
 import { BaseEntityAuditable } from 'src/modulos/BaseEntityAuditable';
+import { Turno } from 'src/modulos/turnos/entities/turno.entity';
 
 @Entity('aporte')
 export class Aporte extends BaseEntityAuditable {
