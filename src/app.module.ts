@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosModule } from './modulos/usuarios/usuarios.module';
+import { GruposModule } from './modulos/grupos/grupos.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -18,6 +19,7 @@ dotenv.config();
       logging: true,
     }),
     UsuariosModule,
+    GruposModule,
   ],
 })
 export class AppModule {}
