@@ -23,4 +23,7 @@ export class Aporte extends BaseEntityAuditable {
   @ManyToOne(() => Usuario, (usuario) => usuario.aportes)
   @JoinColumn({ name: 'usuario_id' })
   usuario: Usuario;
+
+  @OneToOne(() => Turno, (turno) => turno.aporte)
+  turno: Turno;
 }
