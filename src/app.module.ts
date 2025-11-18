@@ -3,6 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosModule } from './modulos/usuarios/usuarios.module';
 import { GruposModule } from './modulos/grupos/grupos.module';
 import { AportesModule } from './modulos/aportes/aportes.module';
+import { TurnosModule } from './modulos/turnos/turnos.module';
 import * as dotenv from 'dotenv';
 dotenv.config();
 
@@ -22,6 +23,7 @@ dotenv.config();
     UsuariosModule,
     GruposModule,
     AportesModule,
+    TurnosModule,
   ],
 })
 export class AppModule {}
