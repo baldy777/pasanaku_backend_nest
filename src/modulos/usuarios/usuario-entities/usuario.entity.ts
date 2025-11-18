@@ -6,10 +6,12 @@ import {
   JoinColumn,
   ManyToMany,
   JoinTable,
+  OneToMany,
 } from 'typeorm';
 import { BaseEntityAuditable } from '../../BaseEntityAuditable';
 import { Persona } from './persona.entity';
 import { Grupo } from 'src/modulos/grupos/grupo-entities/grupo.entity';
+import { Aporte } from 'src/modulos/aportes/entities/aporte.entity';
 
 @Entity({ name: 'usuarios' })
 export class Usuario extends BaseEntityAuditable {
@@ -36,4 +38,7 @@ export class Usuario extends BaseEntityAuditable {
     inverseJoinColumn: { name: 'grupo_id', referencedColumnName: 'id' },
   })
   grupos: Grupo[];
+
+  @OneToMany(() => Aporte, (aporte) => aporte.usuario)
+  aportes: Aporte[];
 }
