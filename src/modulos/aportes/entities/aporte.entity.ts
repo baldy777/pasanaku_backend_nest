@@ -6,15 +6,12 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Usuario } from '../../usuarios/usuario-entities/usuario.entity';
-import { BaseEntityAuditable } from 'src/modulos/BaseEntityAuditable';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Auditoria } from 'src/comun/auditoria.entity';
 import { Turno } from 'src/modulos/turnos/entities/turno.entity';
 
 @Entity('aporte')
-export class Aporte extends BaseEntityAuditable {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Aporte extends Auditoria {
   @Column('decimal', { precision: 10, scale: 2 })
   monto: number;
 
