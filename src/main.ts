@@ -1,20 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { DataSource } from 'typeorm';
+import { join, resolve } from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  app.setGlobalPrefix('api/v1');
+  app.useStaticAssets(join(process.cwd(), 'uploads'), {
+    prefix: '/uploads/',
+  });
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      forbidNonWhitelisted: true,
-      transform: true,
-    }),
-  );
+  app.enableCors({
+    origin: ['http://localhost:5174', 'http://localhost:5173'],
+    methods: 'GET,POST,PUT,PATCH,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+    credentials: true,
+  });
 
-  await app.listen(process.env.PORT ?? 3000);
+  const dataSource = app.get(DataSource);
+
+  await app.listen(3000);
+  console.log('Servidor corriendo en http://localhost:3000');
 }
+
 bootstrap();
