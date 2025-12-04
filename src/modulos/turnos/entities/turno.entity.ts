@@ -6,13 +6,10 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Aporte } from '../../aportes/entities/aporte.entity';
-import { BaseEntityAuditable } from 'src/modulos/BaseEntityAuditable';
+import { Auditoria } from 'src/comun/auditoria.entity';
 
 @Entity('turno')
-export class Turno extends BaseEntityAuditable {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Turno extends Auditoria {
   @Column()
   numeroTurno: number;
 
