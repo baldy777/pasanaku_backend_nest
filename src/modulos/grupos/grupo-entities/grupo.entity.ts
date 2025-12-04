@@ -1,12 +1,9 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
-import { Usuario } from '../../usuarios/usuario-entities/usuario.entity';
-import { BaseEntityAuditable } from 'src/modulos/BaseEntityAuditable';
+import { Usuario } from '../../usuarios/entities/usuario.entity';
+import { Auditoria } from 'src/comun/auditoria.entity';
 
 @Entity('grupo')
-export class Grupo extends BaseEntityAuditable {
-  @PrimaryGeneratedColumn()
-  id: number;
-
+export class Grupo extends Auditoria {
   @Column()
   nombre: string;
 
