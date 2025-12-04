@@ -4,8 +4,8 @@ import { UsuariosModule } from './modulos/usuarios/usuarios.module';
 import { GruposModule } from './modulos/grupos/grupos.module';
 import { AportesModule } from './modulos/aportes/aportes.module';
 import { TurnosModule } from './modulos/turnos/turnos.module';
-import { HistorialModule } from './modulos/historial/historial.module';
 import * as dotenv from 'dotenv';
+import { AuthModule } from './modulos/usuarios/auth.module';
 dotenv.config();
 
 @Module({
@@ -20,12 +20,13 @@ dotenv.config();
       autoLoadEntities: true,
       synchronize: true,
       logging: true,
+      dropSchema: true,
     }),
+    AuthModule,
     UsuariosModule,
     GruposModule,
     AportesModule,
     TurnosModule,
-    HistorialModule,
   ],
 })
 export class AppModule {}
