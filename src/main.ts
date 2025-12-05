@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { DataSource } from 'typeorm';
 import { join, resolve } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { runSeeds } from './database/controladorSeeds';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -19,6 +20,14 @@ async function bootstrap() {
   });
 
   const dataSource = app.get(DataSource);
+
+  try {
+    console.log('Ejecutando seeds...');
+    await runSeeds(dataSource);
+    console.log('Seeds ejecutadas correctamente!');
+  } catch (error) {
+    console.error('Error ejecutando seeds:', error);
+  }
 
   await app.listen(3000);
   console.log('Servidor corriendo en http://localhost:3000');
