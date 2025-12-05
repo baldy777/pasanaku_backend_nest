@@ -67,9 +67,18 @@ export class UsuarioService {
 
     await this.usuarioRepository.save(usuario);
 
+    // Asignar roles
     if (rolesIds && rolesIds.length > 0) {
       for (const rolId of rolesIds) {
         await this.asignarRol(usuario.id, rolId);
+      }
+    } else {
+      const rolParticipante = await this.rolRepository.findOne({
+        where: { nombre: 'Participante', activo: true },
+      });
+
+      if (rolParticipante) {
+        await this.asignarRol(usuario.id, rolParticipante.id);
       }
     }
 
