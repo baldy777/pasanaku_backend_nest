@@ -10,8 +10,6 @@ import {
 import { RolUsuario } from '../entities/rolUsuario.entity';
 import { Auditoria } from '../../../comun/auditoria.entity';
 import * as bcrypt from 'bcrypt';
-import { Grupo } from 'src/modulos/grupos/grupo-entities/grupo.entity';
-import { Aporte } from 'src/modulos/aportes/entities/aporte.entity';
 
 @Entity()
 export class Usuario extends Auditoria {
@@ -47,12 +45,6 @@ export class Usuario extends Auditoria {
 
   @OneToMany(() => RolUsuario, (usuarioRol) => usuarioRol.usuario)
   roles!: RolUsuario[];
-
-  @ManyToMany(() => Grupo, (grupo) => grupo.usuarios)
-  grupos!: Grupo[];
-
-  @ManyToOne(() => Aporte, (aporte) => aporte.usuario)
-  aportes: Aporte[];
 
   @BeforeInsert()
   @BeforeUpdate()
