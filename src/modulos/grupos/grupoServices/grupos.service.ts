@@ -231,7 +231,6 @@ export class GruposService {
         relations: ['miembros'],
       });
 
-      // ✅ CORRECCIÓN: Verificar null después del findOne
       if (!grupo) {
         throw new NotFoundException('Grupo no encontrado');
       }
