@@ -2,8 +2,6 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuariosModule } from './modulos/usuarios/usuarios.module';
 import { GruposModule } from './modulos/grupos/grupos.module';
-import { AportesModule } from './modulos/aportes/aportes.module';
-import { TurnosModule } from './modulos/turnos/turnos.module';
 import * as dotenv from 'dotenv';
 import { AuthModule } from './modulos/usuarios/auth.module';
 dotenv.config();
@@ -19,14 +17,12 @@ dotenv.config();
       database: process.env.MYSQL_DATABASE,
       autoLoadEntities: true,
       synchronize: true,
-      logging: true,
+      logging: false,
       dropSchema: true,
     }),
     AuthModule,
     UsuariosModule,
     GruposModule,
-    AportesModule,
-    TurnosModule,
   ],
 })
 export class AppModule {}
