@@ -49,7 +49,7 @@ contraseña = unicornio3000 (cambiar a consideracion personal)
 
 git clone https://github.com/tuusuario/pasanaku-backend.git
 
-ingresar a la carpeta
+2. ingresar a la carpeta
 
 cd pasanaku-backend
 
@@ -57,9 +57,13 @@ cd pasanaku-backend
 
 code .
 
-2. Instalar dependencias
+3.  Instalar dependencias
 
 pnpm install
+
+4. crear base de datos:
+
+CREATE DATABASE pasanakudb; (el nombre de la base de datos es a consideracion personal)
 
 # Variables de entorno
 
