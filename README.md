@@ -15,9 +15,9 @@ pasanaku_backend_nest\src\database\seedUsuarios\seedUsuario.ts
 
 - datos por defecto para login
 
-correo = somartorrencial@gmail.com
+correo = somartorrencial@gmail.com (cambiar a consideracion personal)
 
-contraseña = unicornio3000 (modificacion a consideracion personal)
+contraseña = unicornio3000 (cambiar a consideracion personal)
 
 # Tecnologías principales
 
