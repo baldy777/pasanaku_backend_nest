@@ -43,7 +43,7 @@ export class GruposService {
 
     const grupoGuardado = await this.grupoRepository.save(grupo);
 
-    // Crear miembro (Encargado)
+    // Crear miembro (creador es Encargado)
     const miembro = this.miembroRepository.create({
       grupoId: grupoGuardado.id,
       usuarioId,
@@ -51,8 +51,6 @@ export class GruposService {
     });
 
     await this.miembroRepository.save(miembro);
-
-    console.log('grupo creado exitosamente');
 
     return this.findOne(grupoGuardado.id, usuarioId);
   }
@@ -80,6 +78,7 @@ export class GruposService {
         'grupo',
         'grupo.miembros',
         'grupo.miembros.usuario',
+        'grupo.miembros.aportes', // ← Trae todos los aportes
         'grupo.turnos',
         'grupo.turnos.miembro',
         'grupo.turnos.miembro.usuario',
@@ -92,28 +91,20 @@ export class GruposService {
 
     const grupo = miembro.grupo;
 
-    // Obtener aportes de cada miembro
-    const miembrosConAportes = await Promise.all(
-      grupo.miembros
-        .filter((m) => m.activo)
-        .map(async (m) => {
-          const aportes = await this.aporteRepository.find({
-            where: { miembroId: m.id },
-            order: { numeroPeriodo: 'DESC' },
-            take: 1,
-          });
-
-          return {
-            ...m,
-            ultimoAporte: aportes[0] || null,
-          };
-        }),
-    );
+    // Filtrar solo miembros activos y ordenar sus aportes
+    const miembrosActivos = grupo.miembros
+      .filter((m) => m.activo)
+      .map((m) => ({
+        ...m,
+        aportes: m.aportes
+          ? m.aportes.sort((a, b) => b.numeroPeriodo - a.numeroPeriodo)
+          : [],
+      }));
 
     return {
       ...grupo,
       rolUsuario: miembro.rol,
-      miembros: miembrosConAportes,
+      miembros: miembrosActivos,
       turnos: grupo.turnos.sort((a, b) => a.numeroTurno - b.numeroTurno),
     };
   }
@@ -143,13 +134,13 @@ export class GruposService {
       throw new NotFoundException('Grupo no encontrado');
     }
 
-    // Verificar grupo lleno
+    // Verificar que el grupo no esté lleno
     const miembrosActivos = grupo.miembros.filter((m) => m.activo).length;
     if (miembrosActivos >= grupo.cantidadMiembros) {
       throw new BadRequestException('El grupo ya está completo');
     }
 
-    // Verificar existencia de miembro
+    // Verificar que el usuario no sea miembro ya
     const yaEsMiembro = grupo.miembros.some(
       (m) => m.usuarioId === invitarDto.usuarioId && m.activo,
     );
@@ -158,7 +149,7 @@ export class GruposService {
       throw new BadRequestException('El usuario ya es miembro del grupo');
     }
 
-    // Verificar invitación
+    // Verificar que no haya invitación pendiente
     const invitacionPendiente = await this.invitacionRepository.findOne({
       where: {
         grupoId,
@@ -171,7 +162,7 @@ export class GruposService {
       throw new BadRequestException('Ya existe una invitación pendiente');
     }
 
-    // Crear invitación
+    // Crear invitación (expira en 7 días)
     const fechaExpiracion = new Date();
     fechaExpiracion.setDate(fechaExpiracion.getDate() + 7);
 
@@ -345,7 +336,6 @@ export class GruposService {
     aporte.fechaPago = registrarPagoDto.fechaPago
       ? new Date(registrarPagoDto.fechaPago)
       : new Date();
-
     aporte.comprobante = registrarPagoDto.comprobante ?? null;
     aporte.observaciones = registrarPagoDto.observaciones ?? null;
 
@@ -357,7 +347,7 @@ export class GruposService {
     return aporte;
   }
 
-  // Obtener aportes
+  // Obtener mis aportes
   async misAportes(usuarioId: number, grupoId?: number) {
     const where: any = { miembro: { usuarioId } };
     if (grupoId) {
