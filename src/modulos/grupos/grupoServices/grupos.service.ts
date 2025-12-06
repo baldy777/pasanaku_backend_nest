@@ -288,7 +288,6 @@ export class GruposService {
         grupo.frecuencia,
         index,
       );
-
       return this.turnoRepository.create({
         grupoId,
         miembroId: miembro.id,
@@ -297,18 +296,15 @@ export class GruposService {
         estado: index === 0 ? EstadoTurno.EN_PROCESO : EstadoTurno.PENDIENTE,
       });
     });
-
     await this.turnoRepository.save(turnos);
-
     // Actualizar grupo
-    grupo.turnosSorteados = true;
-    grupo.fechaInicio = fechaInicio;
-    grupo.turnoActual = 1;
-    await this.grupoRepository.save(grupo);
-
+    await this.grupoRepository.update(grupo.id, {
+      turnosSorteados: true,
+      fechaInicio,
+      turnoActual: 1,
+    });
     // Crear aportes para el primer periodo
     await this.crearAportesPeriodo(grupo, miembrosActivos, 1);
-
     return this.findOne(grupoId, usuarioId);
   }
 
@@ -457,11 +453,11 @@ export class GruposService {
     );
 
     if (todosPagaron) {
-      // Completar turno actual
-      turnoActual.estado = EstadoTurno.COMPLETADO;
-      turnoActual.fechaEjecucion = new Date();
-      turnoActual.montoRecibido = grupo.montoAporte * miembrosActivos.length;
-      await this.turnoRepository.save(turnoActual);
+      await this.turnoRepository.update(turnoActual.id, {
+        estado: EstadoTurno.COMPLETADO,
+        fechaEjecucion: new Date(),
+        montoRecibido: grupo.montoAporte * miembrosActivos.length,
+      });
 
       // Avanzar al siguiente turno
       if (grupo.turnoActual < grupo.cantidadMiembros) {
@@ -472,8 +468,9 @@ export class GruposService {
         );
 
         if (siguienteTurno) {
-          siguienteTurno.estado = EstadoTurno.EN_PROCESO;
-          await this.turnoRepository.save(siguienteTurno);
+          await this.turnoRepository.update(siguienteTurno.id, {
+            estado: EstadoTurno.EN_PROCESO,
+          });
 
           // Crear aportes para el nuevo periodo
           await this.crearAportesPeriodo(
