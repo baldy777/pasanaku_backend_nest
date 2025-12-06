@@ -23,7 +23,7 @@ export async function seedUsuarios(dataSource: DataSource) {
     apellidoPaterno: 'Quispe',
     apellidoMaterno: 'tapia',
     correo: 'somartorrencial@gmail.com',
-    contrasena: 'blady123',
+    contrasena: 'unicornio3000',
     ci: '13312948',
     telefono: '65560127',
     verificado: true,
