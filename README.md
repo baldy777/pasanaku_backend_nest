@@ -45,6 +45,11 @@ contraseña = unicornio3000 (cambiar a consideracion personal)
 
 # Instalación
 
+En caso de no tener git instalado valla al siguiente enlace para us instalacion
+-> https://git-scm.com/ luego ya puede clonarlo.
+
+Por recomendacion personal, abrir el proyecto en visual studio code, seguir el siguiente enlace para su instalacion -> https://code.visualstudio.com/
+
 1. Clonar el repositorio
 
 git clone https://github.com/tuusuario/pasanaku-backend.git
@@ -62,6 +67,8 @@ code .
 pnpm install
 
 4. crear base de datos:
+
+Abrir cmd de mysql o alternativas para mysql y crear la base de datos:
 
 CREATE DATABASE pasanakudb; (el nombre de la base de datos es a consideracion personal)
 
