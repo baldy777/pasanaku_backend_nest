@@ -88,6 +88,12 @@ EMAIL_USUARIO=correo_de_institucion
 EMAIL_PASSWORD=clave_otorgada_por_google
 SERVICIO=gmail
 
+### Para corroborar las variables de entorno siga el siguiente enlace
+
+ojo: solo son variables de prueba
+
+https://drive.google.com/file/d/1bHvIJmJnvnrtEtCgaUcqHNNmtRpDJ6iN/view?usp=sharing
+
 # Ejecución del proyecto
 
 Desarrollo (con recarga automática)
